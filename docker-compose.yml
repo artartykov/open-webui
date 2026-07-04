@@ -1,0 +1,27 @@
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:v0.10.2
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - "ENABLE_OLLAMA_API=false"
+      # --- Chat ---
+      - "OPENAI_API_BASE_URL=https://openrouter.ai/api/v1"
+      - "OPENAI_API_KEY=${OPENROUTER_API_KEY}"
+      - "WEBUI_SECRET_KEY=${webui_secret_key}"
+      # --- RAG / embeddings ---
+      - "RAG_EMBEDDING_ENGINE=openai"
+      - "RAG_OPENAI_API_BASE_URL=https://openrouter.ai/api/v1"
+      - "RAG_OPENAI_API_KEY=${OPENROUTER_API_KEY}"
+      - "RAG_EMBEDDING_MODEL=openai/text-embedding-3-small"
+      # --- Speech-to-text ---
+      - "AUDIO_STT_ENGINE="
+      - "WHISPER_MODEL=tiny"
+      - "WHISPER_COMPUTE_TYPE=int8"
+      - "WHISPER_MULTILINGUAL=true"
+      - "WHISPER_LANGUAGE=ru"
+    volumes:
+      - ./data:/app/backend/data
+    extra_hosts:
+      - host.docker.internal:host-gateway
