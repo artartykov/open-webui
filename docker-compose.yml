@@ -1,6 +1,7 @@
 services:
   open-webui:
     image: ghcr.io/open-webui/open-webui:v0.10.2
+    container_name: open-webui
     restart: unless-stopped
     ports:
       - "8080:8080"
@@ -10,18 +11,23 @@ services:
       - "OPENAI_API_BASE_URL=https://openrouter.ai/api/v1"
       - "OPENAI_API_KEY=${OPENROUTER_API_KEY}"
       - "WEBUI_SECRET_KEY=${webui_secret_key}"
+      - "DEFAULT_MODELS=~openai/gpt-latest"
+      - "DEFAULT_PINNED_MODELS=~openai/gpt-latest,~x-ai/grok-latest,~anthropic/claude-opus-latest"
       # --- RAG / embeddings ---
       - "RAG_EMBEDDING_ENGINE=openai"
       - "RAG_OPENAI_API_BASE_URL=https://openrouter.ai/api/v1"
       - "RAG_OPENAI_API_KEY=${OPENROUTER_API_KEY}"
       - "RAG_EMBEDDING_MODEL=openai/text-embedding-3-small"
+      - "RAG_EMBEDDING_BATCH_SIZE=100"
       # --- Speech-to-text ---
-      - "AUDIO_STT_ENGINE="
-      - "WHISPER_MODEL=tiny"
-      - "WHISPER_COMPUTE_TYPE=int8"
-      - "WHISPER_MULTILINGUAL=true"
-      - "WHISPER_LANGUAGE=ru"
+      - "AUDIO_STT_ENGINE=openai"
+      - "AUDIO_STT_OPENAI_API_BASE_URL=https://openrouter.ai/api/v1"
+      - "AUDIO_STT_OPENAI_API_KEY=${OPENROUTER_API_KEY}"
+      - "AUDIO_STT_MODEL=openai/whisper-large-v3-turbo"
     volumes:
-      - ./data:/app/backend/data
+      - open-webui-data:/app/backend/data
     extra_hosts:
       - host.docker.internal:host-gateway
+
+volumes:
+  open-webui-data:
