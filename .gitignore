@@ -1,3 +1,7 @@
 .env*
 !.env.example
+<<<<<<< HEAD
 data
+=======
+data
+>>>>>>> 7a5165d187f185cf19f713c837f5a9286f090dfb
