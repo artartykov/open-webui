@@ -1,0 +1,14 @@
+[variables]
+main_domain = "${domain}"
+secret_key = "${password:32}"
+
+[[config.domains]]
+serviceName = "open-webui"
+port = 8080
+host = "${main_domain}"
+
+[config]
+env = [
+'CORS_ALLOW_ORIGIN=${main_domain}',
+'webui_secret_key=${secret_key}',
+'OPENROUTER_API_KEY=']
