@@ -9,6 +9,6 @@ host = "${main_domain}"
 
 [config]
 env = [
-'CORS_ALLOW_ORIGIN=${main_domain}',
+'CORS_ALLOW_ORIGIN=http://${main_domain}',
 'webui_secret_key=${secret_key}',
 'OPENROUTER_API_KEY=']
